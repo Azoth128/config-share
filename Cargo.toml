@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
+sha = "1.0.3"
+rayon = "1.7.0"

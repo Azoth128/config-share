@@ -1,12 +1,33 @@
-use std::fs::{self, DirEntry};
+mod file;
+
+use rayon::prelude::*;
+use std::{
+    fs::{self, DirEntry},
+    time::Instant,
+};
+
+use file::File;
 
 #[tokio::main]
 async fn main() -> () {
-    let files_to_encrypt = get_files(".");
+    let now = Instant::now();
 
-    for file in files_to_encrypt {
-        println!("{}", file);
+    let files_to_encrypt: Vec<File> = get_files(".")
+        .par_iter()
+        .map(|str| File::new(str))
+        .collect();
+
+    let elapsed = now.elapsed();
+
+    for file in &files_to_encrypt {
+        println!("{:?}", file);
     }
+
+    println!(
+        "\n\nElapsed:\t{:.2?}\n# of calcs:\t{}",
+        elapsed,
+        files_to_encrypt.len()
+    );
 }
 
 fn with_files_in_dirs(entry: DirEntry) -> Vec<String> {
