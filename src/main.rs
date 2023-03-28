@@ -23,6 +23,8 @@ async fn main() -> () {
         println!("{:?}", file);
     }
 
+    dbg!();
+
     println!(
         "\n\nElapsed:\t{:.2?}\n# of calcs:\t{}",
         elapsed,
